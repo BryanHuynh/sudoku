@@ -11,7 +11,8 @@ const Square = ({row, col, val, mutable=true}) => {
     }
 
     return(
-        <input type='text' maxLength={1} value={value} onChange={handleChange} />
+        <input type='text' maxLength={1} value={value} onChange={handleChange} 
+        style={ mutable ? {color:'red'} : {color:'black'}}></input>
     )
 }
 
