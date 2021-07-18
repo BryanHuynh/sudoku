@@ -1,0 +1,30 @@
+
+table{
+    border: 3px solid #008A73;
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+td {
+  height: 1.5em;
+  width: 1.5em;
+  border: 1px solid #CCC;
+  text-align: center;
+  outline: none;
+}
+
+td input {
+  font-size: 1em;
+  width: 1em;
+  border: none;
+  text-align: center;
+  outline: none;
+}
+
+td:nth-child(3n) {
+  border-right: 5px solid #008A73;
+}
+
+tr:nth-child(3n) {
+  border-bottom: 5px solid #008A73;
+}
