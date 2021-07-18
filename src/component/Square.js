@@ -5,14 +5,23 @@ const Square = ({row, col, val, mutable=true}) => {
 
     const handleChange = (e) => {
         if(mutable){
+            const parsed = parseInt(e.target.value, 10)
             console.log(row, col, e.target.value)
-            setValue(e.target.value)
+            if((!isNaN(parsed) && parsed > 0) || e.target.value === ""){
+                setValue(e.target.value)
+            }            
         }
     }
 
     return(
-        <input type='text' maxLength={1} value={value} onChange={handleChange} 
-        style={ mutable ? {color:'red'} : {color:'black'}}></input>
+        <input 
+            type='text' 
+            maxLength={1} 
+            value={value} 
+            onChange={handleChange} 
+            style={ mutable ? {color:'red'} : {color:'black'}}
+            disabled={ mutable ? false : true}
+        />
     )
 }
 
