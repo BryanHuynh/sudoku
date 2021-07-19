@@ -20,16 +20,17 @@ function App() {
     }
     console.log('col')
     for(let i = 0 ; i < 9; i++){
-      Solver.checkCol(puzzle, i)
+      console.log(Solver.checkCol(puzzle, i))
     }
 
   }
 
   const updateChange = (row,col,val) => {
     let copy = [...puzzle]
+    console.log(Solver.possible(copy, row, col, val))
     copy[row][col].value = val;
     setPuzzle(copy)
-    console.log('updated change: ', copy )
+    //console.log('updated change: ', copy )
   }
 
   const handleClear = () => {
