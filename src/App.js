@@ -3,10 +3,26 @@ import Board from './component/Board'
 import { getPuzzle } from './controllers/index'
 import { useState, useEffect } from 'react'
 import Cell from './cell'
+import * as Solver from './solver'
 
 function App() {
+
   const handlePrintBoard = () => {
-    console.log(puzzle)
+    console.log('grids')
+    for(let i = 0 ; i < 3 ; i++){
+      for(let j = 0; j < 3; j++){
+        Solver.checkBox(puzzle, i, j)
+      }
+    }
+    console.log('rows')
+    for(let i = 0 ; i < 9; i++){
+      Solver.checkRow(puzzle, i)
+    }
+    console.log('col')
+    for(let i = 0 ; i < 9; i++){
+      Solver.checkCol(puzzle, i)
+    }
+
   }
 
   const updateChange = (row,col,val) => {
