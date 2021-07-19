@@ -1,6 +1,6 @@
 import {React, useState}from 'react'
 
-const Square = ({row, col, val, mutable=true}) => {
+const Square = ({row, col, val, mutable=true, updateChange}) => {
     const [value, setValue] = useState(val)
 
     const handleChange = (e) => {
@@ -9,6 +9,7 @@ const Square = ({row, col, val, mutable=true}) => {
             console.log(row, col, e.target.value)
             if((!isNaN(parsed) && parsed > 0) || e.target.value === ""){
                 setValue(e.target.value)
+                updateChange(row, col, e.target.value === "" ? 0 : parsed)
             }            
         }
     }

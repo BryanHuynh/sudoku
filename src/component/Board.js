@@ -1,31 +1,21 @@
-import {React, useState, useEffect} from 'react';
+import {React} from 'react';
 import Square from './Square'
 import './style.css'
-import { getPuzzle } from '../controllers/index';
 
 
-const Board = () => {
-    //console.log(puzzle)
-    const [puzzle, setPuzzle] = useState([]);
-    
-    useEffect(() => {
-        getPuzzle().then((puzzle) => {
-            setPuzzle(puzzle);
-        })
-    }, [setPuzzle])
 
-    console.log(puzzle)
+const Board = ({puzzle, updateChange}) => {
     let rows = []; 
     for( let i = 0 ; i < 9; i++){
         rows[i] = []
         for(let j = 0; j < 9; j++){
-            console.log(puzzle.length)
             if(puzzle.length > 0){
                 rows[i][j] = <Square 
                                 row={i} 
                                 col={j} 
-                                val={puzzle[i][j] === 0 ? "": puzzle[i][j]} 
-                                mutable={puzzle[i][j] === 0 ? true: false}
+                                val={puzzle[i][j].value === 0 ? "": puzzle[i][j].value} 
+                                mutable={puzzle[i][j].mutable}
+                                updateChange={updateChange}
                             />
             }
 
@@ -46,6 +36,7 @@ const Board = () => {
         </table>
     )
 }
+
 
 
 
