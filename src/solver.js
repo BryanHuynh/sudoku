@@ -1,70 +1,69 @@
-export const checkBox = (puzzle, x, y) =>{
-    let grid = extractBox(puzzle, x, y);
-    return check(grid)
-}
-export const checkRow = (puzzle, y) => {
-    let row = extractRow(puzzle, y)
-    return check(row);
+export const getGrid = (puzzle) => {
+    let grid = [];
+    for(let y = 0; y < 9; y++){
+        let row = [];
+        for(let x = 0; x < 9; x++){
+            row.push(puzzle[y][x].value);
+        }
+        grid.push(row);
+    }
+    return grid;
 }
 
-export const checkCol = (puzzle, x) => {
-    let col = extractCol(puzzle, x)
-    return check(col);
+export const solve = (puzzle) => {
+    let grid = getGrid(puzzle);
+    const backtrack = () => {
+        for(let y = 0; y < 9; y++){
+            for(let x = 0; x < 9; x++){
+                if(grid[y][x] === 0){
+                    for(let n = 1; n < 10; n++){
+                        if(possible(grid, y, x, n)){
+                            grid[y][x] = n;
+                            backtrack();
+                            //grid[y][x] = 0;
+                        }
+                    }
+                    return;
+                }
+            }
+        }
+    }
+    backtrack();
+    console.log(grid);
 }
-export const possible = (puzzle, y, x, n) => {
-    let boxElements = checkBox(puzzle, y, x);
-    let rowElements = checkRow(puzzle, y);
-    let colElements = checkCol(puzzle, x);
-    console.log(boxElements, rowElements, colElements)
-    if(boxElements.includes(n)  || rowElements.includes(n) || colElements.includes(n)){
+
+export const possible = (grid, y, x, n) => {
+    let row = getRow(grid, y);
+    let col = getCol(grid, x);
+    let box = getBox(grid, y, x);
+    if(row.includes(n) || col.includes(n) || box.includes(n)){
         return false
     }
     return true;
-
-
-}
-
-const check = (grid) => {
-    let missing = []
-    let contains = []
-    for(let i = 1; i <= 9; i++){
-        if(grid.includes(i)){
-            contains.push(i)
-        }else{
-            missing.push(i)
-        }
-    }
-    //console.log(`${grid}\nincludes: ${contains} \nmissing: ${missing}`)
-    return contains;
-
-}
-const extractRow = (puzzle, row) => {
-    let ret = []
-    for(let i  = 0; i < 9; i++){
-        ret.push(puzzle[row][i].value)
-    }
-    return ret;
-}
-
-const extractCol = (puzzle, col) => {
-    let ret = []
-    for(let i  = 0; i < 9; i++){
-        ret.push(puzzle[i][col].value)
-    }
-    return ret;
-}
-
-const extractBox = (puzzle, x, y) => {
-    let grid = []
-    let row = Math.floor(x/3);
-    let col = Math.floor(y/3);
-    for(let i = row * 3; i < (row*3) + 3; i++){
-        for(let j = col * 3; j < (col*3) + 3; j++){
-            grid.push(puzzle[i][j].value);
-        }
-    }
-
     
-    return grid
+}
+
+const getRow = (grid, y) => {
+    return grid[y];
+}
+
+const getCol = (grid, x) => {
+    let col = [];
+    for(let y = 0; y < 9; y++){
+        col.push(grid[y][x])
+    }
+    return col;
+}
+
+const getBox = (grid, y, x) => {
+    let ret = [];
+    let _y = Math.floor(y / 3)
+    let _x = Math.floor(x / 3)
+    for(let i = _y * 3 ; i < (_y*3) + 3; i ++){
+        for(let j = _x * 3; j < (_x * 3) + 3; j ++){
+            ret.push(grid[i][j])
+        }  
+    }    
+    return ret;
 }
 
