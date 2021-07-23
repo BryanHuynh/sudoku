@@ -6,31 +6,12 @@ import Cell from './cell'
 import * as Solver from './solver'
 
 function App() {
-
-  const handlePrintBoard = () => {
-    console.log('grids')
-    for(let i = 0 ; i < 3 ; i++){
-      for(let j = 0; j < 3; j++){
-        Solver.checkBox(puzzle, i, j)
-      }
-    }
-    console.log('rows')
-    for(let i = 0 ; i < 9; i++){
-      Solver.checkRow(puzzle, i)
-    }
-    console.log('col')
-    for(let i = 0 ; i < 9; i++){
-      console.log(Solver.checkCol(puzzle, i))
-    }
-
-  }
-
+  const [puzzle, setPuzzle] = useState([]);
+  
   const updateChange = (row,col,val) => {
     let copy = [...puzzle]
-    console.log(Solver.possible(copy, row, col, val))
     copy[row][col].value = val;
     setPuzzle(copy)
-    //console.log('updated change: ', copy )
   }
 
   const handleClear = () => {
@@ -56,10 +37,22 @@ function App() {
       }
       setPuzzle(temp);
     })
-    console.log('new game')
   }
 
-  const [puzzle, setPuzzle] = useState([]);
+
+
+
+  const handleSolve = () => {
+    let solution = Solver.solve(puzzle);
+    console.log(solution)
+
+    for(let y = 0; y < 9; y++){
+      for(let x = 0; x < 9; x++){
+        updateChange(y, x, solution[y][x])
+      }
+    }
+  }
+
 
   useEffect(() => {
       getPuzzle().then((puzzle) => {
@@ -80,9 +73,9 @@ function App() {
         
         <Board puzzle={puzzle} updateChange={updateChange}/>
         <div className="flex-container">
-          <button type="button" className="btn btn-light" onClick={handlePrintBoard}>Print Board</button>
           <button type="button" className="btn btn-light" onClick={handleClear}>Clear</button>
           <button type="button" className="btn btn-light" onClick={handleNewGame}>New Game</button>
+          <button type="button" className="btn btn-light" onClick={handleSolve}>Solve</button>
         </div>
 
       </div>

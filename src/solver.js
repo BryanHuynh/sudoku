@@ -7,29 +7,47 @@ export const getGrid = (puzzle) => {
         }
         grid.push(row);
     }
-    return grid;
+    return [...grid];
 }
 
 export const solve = (puzzle) => {
-    let grid = getGrid(puzzle);
-    const backtrack = () => {
-        for(let y = 0; y < 9; y++){
-            for(let x = 0; x < 9; x++){
-                if(grid[y][x] === 0){
-                    for(let n = 1; n < 10; n++){
-                        if(possible(grid, y, x, n)){
-                            grid[y][x] = n;
-                            backtrack();
-                            //grid[y][x] = 0;
-                        }
-                    }
-                    return;
-                }
+
+    const backtrack = (grid) => {
+        let emptySpot = getNextEmptySpot(grid);
+        let row = emptySpot[0];
+        let col = emptySpot[1];
+        
+        if(row === -1){
+            return grid;
+        }
+
+        for(let n = 1; n < 10; n++){
+            if(possible(grid, row, col, n)){
+                grid[row][col] = n;
+                backtrack(grid);
+            }
+        }
+
+        if(getNextEmptySpot(grid)[0] !== -1){
+            grid[row][col] = 0;
+        }
+
+        return grid
+    }
+
+    return(backtrack(getGrid(puzzle)));
+}
+
+const getNextEmptySpot = (grid) => {
+    for(let y = 0; y < 9; y++){
+        for(let x = 0; x < 9; x++){
+            if(grid[y][x] === 0){
+                return [y,x];
             }
         }
     }
-    backtrack();
-    console.log(grid);
+    return [-1,-1];
+
 }
 
 export const possible = (grid, y, x, n) => {
