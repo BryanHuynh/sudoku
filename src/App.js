@@ -15,7 +15,7 @@ function App() {
   }
 
   const handleClear = () => {
-    let copy = [... puzzle]
+    let copy = [...puzzle]
     for(let i = 0; i < puzzle.length; i++){
       for(let j = 0; j < puzzle[i].length; j++){
         if(copy[i][j].mutable){
